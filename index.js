@@ -23,19 +23,20 @@
 
 var budget2015 = [14000, 313, 969, 89.4, 184];
 var budget2016 = [14600, 262, 986, 86.7, 195];
-var combined_budget = [14000, 14600, 313, 262, 969, 986, 89.4, 86.7, 184, 195]
+// true = 2015, f = 2016
+var first = true;
+//var combined_budget = [14000, 14600, 313, 262, 969, 986, 89.4, 86.7, 184, 195]
+
 var chart = d3.select(".chart");
 var bar = chart.selectAll("div");
-var barUpdate = bar.data(combined_budget);
-var barEnter = barUpdate.enter().append("div");
-
-
+var changeButton = document.getElementById("change");
+var chartHTML = document.getElementById("remove");
 
 
    //USAGE: reload index.html before executing each from the console...
 //instant transition:
-barEnter.style("width", function(d) {
-  return d / 13 + "px"; });
+//barEnter.style("width", function(d) {
+//  return d / 10.5 + "px"; });
 /*
 //5s transition:
 barEnter.transition().duration(5000).style("width", function(d) {
@@ -46,4 +47,42 @@ barEnter.transition().duration( function(d){ return d*1000; } )
     return d * 10 + "px"; });
  */
 
-barEnter.text(function(d) { return d; });
+
+var generate = function(){
+	if (first){
+		var barUpdate = bar.data(budget2015);
+		var barEnter = barUpdate.enter().append("div");
+		barEnter.transition().duration(5000).style("width", function(d) {
+		  return d / 10.75 + "px"; });		
+	}
+	else{
+		var barUpdate = bar.data(budget2016);
+		var barEnter = barUpdate.enter().append("div");
+		barEnter.transition().duration(5000).style("width", function(d) {
+		  return d / 10.75 + "px"; });	
+	}
+	barEnter.text(function(d) { return d; });
+}
+
+
+var change = function(){
+	chartHTML.innerHTML = ""
+	if (first){
+		changeButton.innerHTML = "2016"
+		first = false;
+		generate();
+	}
+	else{
+		changeButton.innerHTML = "2015"
+		first = true;
+		generate();
+	}
+
+}
+
+changeButton.addEventListener("click",change);
+
+
+
+
+generate();

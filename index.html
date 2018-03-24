@@ -15,6 +15,7 @@
   <head>
 	  <meta charset="UTF-8"/>
     <title>Demo: D3 Transitions</title>
+    <h1> Total Tax Revenue in Billions</h1>
     <style>
       .chart div {
         font: 10px sans-serif;
@@ -26,13 +27,16 @@
       }
     </style>
 
+
     <script src="http://d3js.org/d3.v3.min.js"
             charset="utf-8"></script>
   </head>
   
   <body>
-    <div class="chart">
+    <div class="chart" id ="remove">
     </div>
+        <br><br>
+        <button type = "button" id ="change"> 2015 </button>
   </body>
 
   <script src="index.js"></script>
