@@ -20,7 +20,7 @@
 //excise tax 86.7
 //other tax 195
 
-
+var list = ["Income tax", "Corporate tax", "Payroll tax", "Excise tax", "Other Tax"]
 var budget2015 = [14000, 313, 969, 89.4, 184];
 var budget2016 = [14600, 262, 986, 86.7, 195];
 // true = 2015, f = 2016
@@ -31,51 +31,28 @@ var chart = d3.select(".chart");
 var bar = chart.selectAll("div");
 var changeButton = document.getElementById("change");
 var chartHTML = document.getElementById("remove");
+var barUpdate = bar.data(budget2015);
+var barEnter = barUpdate.enter().append("div");
 
-
-   //USAGE: reload index.html before executing each from the console...
-//instant transition:
-//barEnter.style("width", function(d) {
-//  return d / 10.5 + "px"; });
-/*
-//5s transition:
-barEnter.transition().duration(5000).style("width", function(d) {
-  return d * 10 + "px"; });
-//trans time prop to bar width
-barEnter.transition().duration( function(d){ return d*1000; } )
-  .style("width", function(d) {
-    return d * 10 + "px"; });
- */
-
-
-var generate = function(){
-	if (first){
-		var barUpdate = bar.data(budget2015);
-		var barEnter = barUpdate.enter().append("div");
-		barEnter.transition().duration(5000).style("width", function(d) {
-		  return d / 10.75 + "px"; });		
-	}
-	else{
-		var barUpdate = bar.data(budget2016);
-		var barEnter = barUpdate.enter().append("div");
-		barEnter.transition().duration(5000).style("width", function(d) {
-		  return d / 10.75 + "px"; });	
-	}
-	barEnter.text(function(d) { return d; });
+function generate(data){
+	bar = chart.selectAll("div");
+	barUpdate = bar.data(data);
+	barUpdate.transition().duration(500).style("width", function(d) {return 120 + d / 10.75 + "px";}).style("height", "30px");
+	barUpdate.text(function(d) {return "$" + d + " Billion"});
+  bar.data(list).append("b").attr("style","float:left").text(function(d){return d;});
 }
 
 
 var change = function(){
-	chartHTML.innerHTML = ""
 	if (first){
-		changeButton.innerHTML = "2016"
+		changeButton.innerHTML = "2015"
 		first = false;
-		generate();
+		generate(budget2015);
 	}
 	else{
-		changeButton.innerHTML = "2015"
+		changeButton.innerHTML = "2016"
 		first = true;
-		generate();
+		generate(budget2016);
 	}
 
 }
@@ -85,4 +62,4 @@ changeButton.addEventListener("click",change);
 
 
 
-generate();
+generate(budget2015);
